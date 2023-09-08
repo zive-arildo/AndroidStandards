@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">AndroidStandards</string>
+    <string name="base_url">https://api.flickr.com/services/feeds/</string>
+</resources>
