@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -38,7 +39,11 @@ fun HomeScreen(
     if (items is HomeUiState.Success) {
         HomeScreen(items = (items as HomeUiState.Success).data, onItemClick = onItemClick)
     } else {
-        HomeScreen(items = listOf(), onItemClick = onItemClick)
+        Box(modifier = Modifier.fillMaxSize()) {
+            CircularProgressIndicator(
+                modifier = Modifier.align(Alignment.Center)
+            )
+        }
     }
 }
 
@@ -49,40 +54,30 @@ fun HomeScreen(
     items: List<FlickrItem>,
     onItemClick: (String) -> Unit
 ) {
-    Scaffold {
-        if (items.isEmpty()) {
-            Box(modifier = Modifier.fillMaxSize()) {
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            }
-        } else {
-            LazyColumn {
-                items(items.size) { index ->
-                    val title = items[index].title
-                    val imageUrl = items[index].media.image
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(150.dp)
-                            .clickable {
-                                onItemClick(imageUrl)
-                            }
-                    ) {
-                        Column(
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            AsyncImage(
-                                modifier = Modifier.height(100.dp),
-                                model = imageUrl,
-                                contentDescription = null
-                            )
-                            Text(
-                                modifier = Modifier.padding(16.dp),
-                                text = title
-                            )
+    Scaffold () {
+        LazyColumn {
+            items(items) { item ->
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(150.dp)
+                        .clickable {
+                            onItemClick(item.media.image)
                         }
+                ) {
+                    Column(
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        AsyncImage(
+                            modifier = Modifier.height(100.dp),
+                            model = item.media.image,
+                            contentDescription = null
+                        )
+                        Text(
+                            modifier = Modifier.padding(16.dp),
+                            text = item.title
+                        )
                     }
                 }
             }
