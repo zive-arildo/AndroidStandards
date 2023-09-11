@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val flickrRepo: FlickrRepo
+    flickrRepo: FlickrRepo
 ): ViewModel() {
 
     val uiState: StateFlow<HomeUiState> = flickrRepo

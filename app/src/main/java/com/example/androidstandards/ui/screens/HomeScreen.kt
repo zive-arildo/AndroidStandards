@@ -35,9 +35,9 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
     onItemClick: (String) -> Unit,
 ) {
-    val items by viewModel.uiState.collectAsStateWithLifecycle()
-    if (items is HomeUiState.Success) {
-        HomeScreen(items = (items as HomeUiState.Success).data, onItemClick = onItemClick)
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    if (uiState is HomeUiState.Success) {
+        HomeScreen(items = (uiState as HomeUiState.Success).data, onItemClick = onItemClick)
     } else {
         Box(modifier = Modifier.fillMaxSize()) {
             CircularProgressIndicator(
